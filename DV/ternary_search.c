@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../data_structures/ivector/ivector.h"
+#include <limits.h>
+#include "../data_structures_C/ivector/ivector.c"
+
+
+#define SIZE 7
 
 // Function to print an array
 void printArray(int A[], int size)
@@ -12,37 +16,57 @@ void printArray(int A[], int size)
 }
 
 
-//REVISAR ESTO HAY UN ERROR AQUÍ
-int* ternary_search(int v[], int lower, int SIZE, int data){
-    if (SIZE >= 1){
-        int new_size = SIZE/3;
+int ternary_search(int v[], int l, int r, int data){
+        if (l <= r)
+        {
+            int mid1 = l + (r - l) / 3;
+            int mid2 = r - (r - l) / 3;
 
-        int mid1 = lower + ((lower + SIZE) - lower) / 3;
-        int mid2 = lower + 2 * ((lower + SIZE) - lower) / 3;
+            if (data == v[mid1])
+            {
+                return v[mid1];
+            }
+            if (data == v[mid2])
+            {
+                return v[mid2];
+            }
 
-        if (v[lower] < data && data <= v[mid1]){
-            return ternary_search(v, lower, new_size, data);
+
+            if (data < v[mid1])
+            {
+                ternary_search(v, l, mid1-1, data);
+            }
+            else if (data < v[mid2])
+            {
+                ternary_search(v, mid1+1, mid2-1, data);
+            }
+            else if (data > v[mid2])
+            {
+                ternary_search(v, mid2+1, r, data);
+            }
         }
-        else if (v[mid1] < data && data <= v[mid2]){
-            return ternary_search(v, mid1, new_size, data);
-        }
-        return ternary_search(v, mid2, new_size, data);
-    }
-
-    return &v[lower];
         
+        //Data not found
+        else{
+            return INT_MIN;
+        }
+
 }
 
 int main(){
-    const int SIZE = 20;
-    int v[SIZE];
-    
-    for (int i = 0; i < SIZE; i++){
-        v[i] = 2*i;
+
+    ivector arr;
+    arr = icreavector(SIZE);
+
+    for (int i = 0; i < SIZE; i++)
+    {
+        arr[i] = i*2;
     }
 
 	printf("Given array is \n");
-    printArray(v,SIZE);
+    printArray(arr,SIZE);
 
-    printf("The found data in the array is: \n%d \n", *ternary_search(v, v[0], SIZE, 20));
+    printf("The found data in the array is: \n%d \n", ternary_search(arr, 0, SIZE-1, 10));
+
+    ifreevector(&arr);
 }
