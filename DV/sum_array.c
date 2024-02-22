@@ -11,62 +11,40 @@ void printArray(int A[], int size)
     printf("\n");
 }
 
-//Function to merge
-void merge (int arr[], int l, int r, int *sum, int *min, int *max)
+
+int divConqAlgorithm(int arr[], int l, int r, int *min, int *max)
 {
-    //if (r - l > 2)
-    //{
-        for (int i = l; i < r; i++)
+    if (r - l < 2)
+    {
+        int sum = 0;
+        for (int i = l; i <= r; i++)
         {
-            if (*min > arr[i])
-            {
+            if (arr[i] < *min)
                 *min = arr[i];
-            }
-            if (*max < arr[i])
-            {
+            else if (arr[i] > *max)
                 *max = arr[i];
-            }
-            *sum += arr[i];
+
+            sum += arr[i];
         }
-    //}
-    //else
-    //{
-    //    for (int i = l; i <= r; i++)
-    //    {
-    //        *sum += arr[i];
-    //    }  
-    //}
-}
 
-// Function to divide in two subArrays
-void Divide(int arr[], int l, int r, int *sum, int *min, int *max)
-{
+        return sum;
+    }
+
     int mid = l + (r - l) / 2;
-
-    if (r - l > 2)
-    {
-        Divide(arr, l, mid, sum, min, max);
-        Divide(arr, mid+1, r, sum, min, max);
-
-        merge(arr, l, r, sum, min, max);
-    }
-    else
-    {
-        //TERMINAR ESTO
-        for (int i = 0;)
-    }
+    
+    int leftSum = divConqAlgorithm(arr, l, mid, min, max);
+    int rightSum = divConqAlgorithm(arr, mid+1, r, min, max);
+    
+    return leftSum + rightSum;
 }
 
 // Function Divide and Conquer Way
-int DivConq(int arr[], int l, int r)
+int divConq(int arr[], int l, int r)
 {
-    int min = 0;
-    int max = 0;
-    int sum = 0;
+    int min = INT_MAX;
+    int max = INT_MIN;
 
-    Divide(arr, l, r, &sum, &min, &max);
-
-    return (sum -= (min + max));
+    return divConqAlgorithm(arr, l, r, &min, &max) - (min + max);
 }
 
 
@@ -81,10 +59,11 @@ int classicAlgorithm(int arr[], int SIZE){
     int min = INT_MAX;
     int max = INT_MIN;
     int sum = 0;
-    for(int i = 0; i < SIZE; i++){
-        if (min > arr[i])
+    for(int i = 0; i < SIZE; i++)
+    {
+        if (arr[i] < min)
             min = arr[i];
-        else if (max < arr[i])
+        else if (arr[i] > max)
             max = arr[i];
         
         sum += arr[i];
@@ -102,5 +81,5 @@ int main(){
 
     //printf("The result of the sum except MIN and MAX element is:\n%d\n", classicAlgorithm(arr,8));
 
-    printf("The result of the sum except MIN and MAX element is:\n%d\n", DivConq(arr,0,8-1));
+    printf("The result of the sum except MIN and MAX element is:\n%d\n", divConq(arr,0,8-1));
 }
