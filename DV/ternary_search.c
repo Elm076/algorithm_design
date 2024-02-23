@@ -17,7 +17,7 @@ void printArray(int A[], int size)
 
 
 int ternary_search(int v[], int l, int r, int data){
-        if (l <= r)
+        if (r - l > 3)
         {
             int mid1 = l + (r - l) / 3;
             int mid2 = r - (r - l) / 3;
@@ -45,10 +45,16 @@ int ternary_search(int v[], int l, int r, int data){
                 ternary_search(v, mid2+1, r, data);
             }
         }
-        
-        //Data not found
         else{
-            return INT_MIN;
+            for (int i = l; i < r; i++)
+            {
+                if (v[i] == data)
+                {
+                    return v[i];
+                }
+            }
+            printf("--ERROR-- in ternary_search:Key not found in the given array.");
+            exit(1);
         }
 
 }
