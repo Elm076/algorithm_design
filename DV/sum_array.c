@@ -11,9 +11,6 @@ void printArray(int A[], int size)
     printf("\n");
 }
 
-
-int divConqAlgorithm(int arr[], int l, int r, int *min, int *max)
-
 int divConqAlgorithm(int arr[], int l, int r, int *min, int *max)
 {
     if (r - l < 2)
@@ -32,16 +29,7 @@ int divConqAlgorithm(int arr[], int l, int r, int *min, int *max)
         return sum;
     }
 
-
-        return sum;
-    }
-
     int mid = l + (r - l) / 2;
-    
-    int leftSum = divConqAlgorithm(arr, l, mid, min, max);
-    int rightSum = divConqAlgorithm(arr, mid+1, r, min, max);
-    
-    return leftSum + rightSum;
     
     int leftSum = divConqAlgorithm(arr, l, mid, min, max);
     int rightSum = divConqAlgorithm(arr, mid+1, r, min, max);
@@ -51,14 +39,10 @@ int divConqAlgorithm(int arr[], int l, int r, int *min, int *max)
 
 // Function Divide and Conquer Way
 int divConq(int arr[], int l, int r)
-int divConq(int arr[], int l, int r)
 {
     int min = INT_MAX;
     int max = INT_MIN;
-    int min = INT_MAX;
-    int max = INT_MIN;
 
-    return divConqAlgorithm(arr, l, r, &min, &max) - (min + max);
     return divConqAlgorithm(arr, l, r, &min, &max) - (min + max);
 }
 
@@ -96,6 +80,5 @@ int main(){
 
     //printf("The result of the sum except MIN and MAX element is:\n%d\n", classicAlgorithm(arr,8));
 
-    printf("The result of the sum except MIN and MAX element is:\n%d\n", divConq(arr,0,8-1));
     printf("The result of the sum except MIN and MAX element is:\n%d\n", divConq(arr,0,8-1));
 }
